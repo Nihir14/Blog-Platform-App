@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +29,16 @@ return categoryRepository.findAllWithPostCount();
             throw new IllegalArgumentException("Category already exists with name: " + category.getName());
         }
         return categoryRepository.save(category);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCategory(UUID id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if (category.isPresent()) {
+            if (!category.get().getPosts().isEmpty())
+                throw new IllegalStateException("Category has associated posts and cannot be deleted.");
+        }
+        categoryRepository.deleteById(id);
     }
 }
