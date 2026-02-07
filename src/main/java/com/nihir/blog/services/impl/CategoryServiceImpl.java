@@ -1,7 +1,7 @@
 package com.nihir.blog.services.impl;
 
 import com.nihir.blog.domain.entities.Category;
-import com.nihir.blog.repos.CategoryRepo;
+import com.nihir.blog.repos.CategoryRepository;
 import com.nihir.blog.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepo categoryRepository;
+    private final CategoryRepository categoryRepository;
     @Override
     public List<Category> listCategories() {
 return categoryRepository.findAllWithPostCount();
